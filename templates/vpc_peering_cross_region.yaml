@@ -1,112 +1,52 @@
 Description:  Udacity - Design for Availability, Resilience, and Reliability
 
 Parameters:
-  VpcName:
-    Description: A name that is prefixed to resource names
+  MainVPCID:
+    Description: Main VPC ID
     Type: String
 
-  VpcCIDR:
-    Description: Please enter the IP range (CIDR notation) for this VPC
+  DRVPCID:
+    Description: Disaster Recovery VPC ID
     Type: String
-    Default: 172.31.0.0/16
 
-  PublicSubnet1CIDR:
-    Description: Please enter the IP range (CIDR notation) for the public subnet in the first Availability Zone
+  MainPrivateRouteTable:
+    Description: Main Private Route Table
     Type: String
-    Default: 172.31.10.0/24
 
-  PublicSubnet2CIDR:
-    Description: Please enter the IP range (CIDR notation) for the public subnet in the second Availability Zone
+  DRPrivateRouteTable:
+    Description: Disaster Recovery Private Route Table
     Type: String
-    Default: 172.31.11.0/24
 
-  PrivateSubnet1CIDR:
-    Description: Please enter the IP range (CIDR notation) for the private subnet in the first Availability Zone
+  DRAcceptRegion:
+    Description: Disaster Recovery Private Route Table
     Type: String
-    Default: 172.31.20.0/24
-
-  PrivateSubnet2CIDR:
-    Description: Please enter the IP range (CIDR notation) for the private subnet in the second Availability Zone
-    Type: String
-    Default: 172.31.21.0/24
-
-Metadata:
-  AWS::CloudFormation::Interface:
-    ParameterGroups:
-      -
-        Label:
-          default: "Information for the VPC"
-        Parameters:
-          - VpcName
-          - VpcCIDR
-      -
-        Label:
-          default: "Information for the VPCs subnets. Subnet network ranges MUST fall within the VPC CIDR block above"
-        Parameters:
-          - PublicSubnet1CIDR
-          - PublicSubnet2CIDR
-          - PrivateSubnet1CIDR
-          - PrivateSubnet2CIDR
-
-    ParameterLabels:
-      VpcName:
-        default: "VPC Name"
-      VpcCIDR:
-        default: "VPC CIDR block"
-      PublicSubnet1CIDR:
-        default: "Public Subnet 1"
-      PublicSubnet2CIDR:
-        default: "Public Subnet 2"
-      PrivateSubnet1CIDR:
-        default: "Private Subnet 1"
-      PrivateSubnet2CIDR:
-        default: "Private Subnet 2"
 
 Resources:
-  PeeringRoute1:
-    Type: 'AWS::EC2::Route'
-    Properties:
-      DestinationCidrBlock: 0.0.0.0/0
-      RouteTableId: !Ref RouteTable
-      VpcPeeringConnectionId: !Ref myVPCPeeringConnection
+
+  # PeeringRoute1:
+  #   Type: 'AWS::EC2::Route'
+  #   Properties:
+  #     DestinationCidrBlock: 0.0.0.0/0
+  #     RouteTableId: !Ref DRPrivateRouteTable
+  #     VpcPeeringConnectionId: !Ref myVPCPeeringConnection
+
   PeeringRoute2:
     Type: 'AWS::EC2::Route'
     Properties:
-      DestinationCidrBlock: !Ref myPrivateVPCIDCIDRRange
-      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 172.31.0.0/16
+      RouteTableId: !Ref MainPrivateRouteTable
       VpcPeeringConnectionId: !Ref myVPCPeeringConnection
+
   myVPCPeeringConnection:
     Type: 'AWS::EC2::VPCPeeringConnection'
     Properties:
-      VpcId: !Ref myVPC
-      PeerVpcId: !Ref myPrivateVPC
+      VpcId: !Ref MainVPCID
+      PeerVpcId: !Ref DRVPCID
+      PeerRegion: !Ref DRAcceptRegion
+
 Outputs:
-  VPC:
-    Description: VPC ID
-    Value: !Ref VPC
+  PeeringVPC:
+    Description: Peering VPC ID
+    Value: !Ref myVPCPeeringConnection
     Export:
-      Name: !Join [ ':', [ !Ref 'AWS::StackName', 'VPCID' ] ]
-
-  PublicSubnets:
-    Description: A list of the public subnets
-    Value: !Join [ ", ", [ !Ref PublicSubnet1, !Ref PublicSubnet2 ]]
-    Export:
-      Name: !Join [ ':', [ !Ref 'AWS::StackName', 'PublicSubnets' ] ]
-
-  PrivateSubnets:
-    Description: A list of the private subnets
-    Value: !Join [ ", ", [ !Ref PrivateSubnet1, !Ref PrivateSubnet2 ]]
-    Export:
-      Name: !Join [ ':', [ !Ref 'AWS::StackName', 'PrivateSubnets' ] ]
-
-  DatabaseSecurityGroup:
-    Description: ID of the database security group
-    Value: !Ref DatabaseSecurityGroup
-    Export:
-      Name: !Join [ ':', [ !Ref 'AWS::StackName', 'DatabaseSecurityGroup' ] ]
-
-  ApplicationSecurityGroup:
-    Description: ID of the EC2 instance security group
-    Value: !Ref ApplicationSecurityGroup
-    Export:
-      Name: !Join [ ':', [ !Ref 'AWS::StackName', 'ApplicationSecurityGroup' ] ]
+      Name: !Join [ ':', [ !Ref 'AWS::StackName', 'PeeringVPC' ] ]
