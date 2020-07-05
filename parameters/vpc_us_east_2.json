@@ -1,0 +1,26 @@
+[
+    {
+      "ParameterKey": "VpcName",
+      "ParameterValue": "dr_region_vpc"
+    }, 
+    {
+      "ParameterKey": "VpcCIDR",
+      "ParameterValue": "172.31.0.0/16"
+    },
+    {
+        "ParameterKey": "PublicSubnet1CIDR",
+        "ParameterValue": "172.31.10.0/24"
+    },
+    {
+        "ParameterKey": "PublicSubnet2CIDR",
+        "ParameterValue": "172.31.11.0/24"
+    },
+    {
+        "ParameterKey": "PrivateSubnet1CIDR",
+        "ParameterValue": "172.31.20.0/24"
+    },
+    {
+        "ParameterKey": "PrivateSubnet2CIDR",
+        "ParameterValue": "172.31.21.0/24"
+    }
+]
