@@ -180,7 +180,7 @@ Resources:
         -   Description: Application EC2 instances
             FromPort: 3306
             IpProtocol: tcp
-            SourceSecurityGroupId: !Ref ApplicationSecurityGroup
+            CidrIp: 0.0.0.0/0
             ToPort: 3306
       VpcId: !Ref VPC
       Tags:

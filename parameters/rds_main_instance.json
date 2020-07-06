@@ -1,0 +1,30 @@
+[
+    {
+      "ParameterKey": "DBInstanceID",
+      "ParameterValue": "mainrdsdb"
+    }, 
+    {
+      "ParameterKey": "DBName",
+      "ParameterValue": "exampledb"
+    },
+    {
+        "ParameterKey": "DBInstanceClass",
+        "ParameterValue": "db.t2.micro"
+    },
+    {
+        "ParameterKey": "DBAllocatedStorage",
+        "ParameterValue": "20"
+    },
+    {
+        "ParameterKey": "DBUsername",
+        "ParameterValue": "exampleusername"
+    },
+    {
+        "ParameterKey": "DBPassword",
+        "ParameterValue": "examplepassword"
+    },
+    {
+        "ParameterKey": "BackupWindow",
+        "ParameterValue": "03:00-05:00"
+    }
+]

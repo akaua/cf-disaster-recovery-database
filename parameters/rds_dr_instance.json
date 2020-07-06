@@ -1,0 +1,34 @@
+[
+    {
+      "ParameterKey": "DBInstanceID",
+      "ParameterValue": "drrdsdb"
+    }, 
+    {
+      "ParameterKey": "DBName",
+      "ParameterValue": "exampledb"
+    },
+    {
+        "ParameterKey": "DBInstanceClass",
+        "ParameterValue": "db.t2.micro"
+    },
+    {
+        "ParameterKey": "DBAllocatedStorage",
+        "ParameterValue": "20"
+    },
+    {
+        "ParameterKey": "DBUsername",
+        "ParameterValue": "exampleusername"
+    },
+    {
+        "ParameterKey": "DBPassword",
+        "ParameterValue": "examplepassword"
+    },
+    {
+        "ParameterKey": "BackupWindow",
+        "ParameterValue": "03:00-05:00"
+    },
+    {
+        "ParameterKey": "MainDBRegion",
+        "ParameterValue": "us-east-1"
+    }
+]
