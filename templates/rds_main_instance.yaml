@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  "Description": "Creation of Main RDS Instance"
+  Creation of Main RDS Instance
 Parameters:
   DBInstanceID:
     Default: mydbinstance
@@ -67,6 +67,7 @@ Resources:
       MonitoringInterval: '60'
       MonitoringRoleArn: !Sub 'arn:aws:iam::${AWS::AccountId}:role/rds-monitoring-role'
       PreferredBackupWindow: !Ref BackupWindow
+      MultiAZ: true
       DeleteAutomatedBackups: true
       DBSubnetGroupName: !Ref DBSubnetGroup
       DBSecurityGroups: 

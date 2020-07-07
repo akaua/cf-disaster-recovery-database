@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  "Description": "Creation of Main RDS Instance"
+  Creation of Main RDS Instance
 Parameters:
   DBInstanceID:
     Default: mydbinstance
