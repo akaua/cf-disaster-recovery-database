@@ -15,6 +15,10 @@ $ sudo apt install python
 ```sh
 $ sudo apt install python-pip
 ```
+## First install the dependencies of the python project:
+```sh
+$ pip install -r requirements.txt
+```
 
 ## For create the stack, just execute:
 ```sh
