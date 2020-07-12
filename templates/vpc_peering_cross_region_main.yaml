@@ -13,22 +13,11 @@ Parameters:
     Description: Main Private Route Table
     Type: String
 
-  DRPrivateRouteTable:
-    Description: Disaster Recovery Private Route Table
-    Type: String
-
   DRAcceptRegion:
     Description: Disaster Recovery Private Route Table
     Type: String
 
 Resources:
-
-  # PeeringRoute1:
-  #   Type: 'AWS::EC2::Route'
-  #   Properties:
-  #     DestinationCidrBlock: 0.0.0.0/0
-  #     RouteTableId: !Ref DRPrivateRouteTable
-  #     VpcPeeringConnectionId: !Ref myVPCPeeringConnection
 
   PeeringRoute2:
     Type: 'AWS::EC2::Route'

@@ -97,9 +97,10 @@ def create_stack_peering_connection():
             DR_VPC = export['Value']
         elif export['Name'] == "DrVPCRegionStack:PrivateRouteTable":
             DR_Route_Table = export['Value']
+
     print '######### Iniciando criacao de Peering connection cross region #########'
     stack_name='MainPeeringVPCCrossRegionStack'
-    with open('./templates/vpc_peering_cross_region.yaml', 'r') as cf_file:
+    with open('./templates/vpc_peering_cross_region_main.yaml', 'r') as cf_file:
         cft_template = cf_file.read()
         response = client_cloud_formation_main.create_stack(
                     StackName=stack_name,
@@ -118,10 +119,6 @@ def create_stack_peering_connection():
                             'ParameterValue': main_route_table
                         },
                         {
-                            'ParameterKey': 'DRPrivateRouteTable',
-                            'ParameterValue': DR_Route_Table
-                        },
-                        {
                             'ParameterKey': 'DRAcceptRegion',
                             'ParameterValue': 'us-east-2'
                         },
@@ -135,6 +132,39 @@ def create_stack_peering_connection():
     print '######### Verificando se Peering connection cross region foi criada com sucesso #########'   
     verificar_criacao_stack_main(stack_name=stack_name)
     print '######### Finalizada criacao de Peering connection cross region com sucesso #########'  
+    response_main = client_cloud_formation_main.list_exports()
+    peering_id = None
+    for export in response_main['Exports']:
+        if export['Name'] == "MainPeeringVPCCrossRegionStack:PeeringVPC":
+            peering_id = export['Value']
+    
+    stack_name='DrPeeringVPCCrossRegionStack'
+    with open('./templates/vpc_peering_cross_region_dr.yaml', 'r') as cf_file:
+        cft_template = cf_file.read()
+        response = client_cloud_formation_dr.create_stack(
+                    StackName=stack_name,
+                    TemplateBody=cft_template,
+                    Parameters=[
+                        {
+                            'ParameterKey': 'DRPrivateRouteTable',
+                            'ParameterValue': DR_Route_Table
+                        },
+                        {
+                            'ParameterKey': 'MyVPCPeeringConnection',
+                            'ParameterValue': peering_id
+                        }
+                    ],
+                    Capabilities=[
+                        'CAPABILITY_IAM'
+                    ],
+                    OnFailure='ROLLBACK'
+                )
+    print '######### Verificando se Peering connection cross region foi criada com sucesso #########'   
+    verificar_criacao_stack_dr(stack_name)
+    print '######### Finalizada criacao de Peering connection cross region com sucesso #########'  
+
+    
+
 
 def create_stack_rds():
     stack_name='MainRDSStack'

@@ -60,7 +60,16 @@ def destroy_stack_peering_connection():
     response = client_cloud_formation_main.delete_stack(StackName=stack_name)
     print '######### Verificando se Peering connection cross region foi destruido com sucesso #########'   
     verificar_delete_stack_main(stack_name=stack_name)
-    print '######### Finalizada destruicao de Peering connection cross region com sucesso #########'  
+    print '######### Finalizada destruicao de Peering connection cross region com sucesso #########'
+
+def destroy_stack_peering_connection_dr():
+    print '######### Iniciando destruicao de Peering connection cross region #########'
+    stack_name='DrPeeringVPCCrossRegionStack'
+    response = client_cloud_formation_dr.delete_stack(StackName=stack_name)
+    print '######### Verificando se Peering connection cross region foi destruido com sucesso #########'   
+    verificar_delete_stack_dr(stack_name=stack_name)
+    print '######### Finalizada destruicao de Peering connection cross region com sucesso #########'
+   
 
 def destroy_stack_rds():
     print '######### Iniciando destruicao de instancia de Disaster Recovery em outra regiao #########'          
@@ -81,8 +90,10 @@ def destroy_stack_rds():
 
 start()
 destroy_stack_rds()
+destroy_stack_peering_connection_dr()
 destroy_stack_peering_connection()
 destroy_stack_vpc_east_2()
 destroy_stack_vpc_east_1()
+
 
 

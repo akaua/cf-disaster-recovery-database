@@ -1,0 +1,18 @@
+Description:  Udacity - Design for Availability, Resilience, and Reliability
+
+Parameters:
+  DRPrivateRouteTable:
+    Description: Disaster Recovery Private Route Table
+    Type: String
+  MyVPCPeeringConnection:
+    Description: Disaster Recovery Private Route Table
+    Type: String
+Resources:
+
+  PeeringRoute2:
+    Type: 'AWS::EC2::Route'
+    Properties:
+      DestinationCidrBlock: 10.1.0.0/16
+      RouteTableId: !Ref DRPrivateRouteTable
+      VpcPeeringConnectionId: !Ref MyVPCPeeringConnection
+
